@@ -1,23 +1,179 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
-# Libraries
-*.lib
-*.a
+int main (int argc, char *argv[]) // Variable principale
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+{
+    int niveau = 0;
+    int nombreAleatoireMax = 1000, nombreAleatoire = 500, nombreChoisis = 0, tentatives = 15, tentativesTotales = 1, tentativesOrdi = 1, code = 0, tentativesPC = 15, diffTentatives = 0, nombreOrdi = 0, nombreOrdi2 = 500;
+    const int MAX = 1000, MIN = 1;
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+    printf("-- Petit jeu d'Adrien !!--\n\nObjectif : trouver le bon nombre aleatoire en moins de coups possible !\n\n\n\n---------------------LEVEL 1---------------------\nTrouver un nombre entre 1 et 1000 en 15 tentatives maximum!\n\n");
+
+
+    // Génération du nombre aléatoire
+    srand(time(NULL));
+    nombreAleatoire = (rand() % (MAX - MIN + 1)) + MIN;
+    //printf("%d\n\n", nombreAleatoire);
+    printf("Votre nombre : ");
+    scanf("%d", &nombreChoisis);
+
+    //Choix
+
+    while (tentatives > 1)
+    {
+        tentatives--;
+
+        if (nombreChoisis > nombreAleatoire)
+        {
+            tentativesTotales++;
+            printf("Le nombre aleatoire est plus PETIT !\nIl vous reste %d tentatives\n", tentatives);
+            printf("Votre nombre : ");
+            scanf("%d", &nombreChoisis);
+        }
+        else if (nombreChoisis < nombreAleatoire)
+        {
+            tentativesTotales++;
+            printf("Le nombre aleatoire est plus GRAND !\nIl vous reste %d tentatives\n", tentatives);
+            printf("Votre nombre : ");
+            scanf("%d", &nombreChoisis);
+        }
+
+    }
+
+    if (nombreChoisis == nombreAleatoire)
+    {
+        printf("\nVOUS AVEZ TROUVE LE BON NOMBRE !");
+        niveau = 1;
+        printf("\n\n\nNiveau maximum : %d\nNombre de tentatives totales : %d\n\n\n\n\nEntre le code 123 pour que Adrien puisse jouer !\ncode : ", niveau, tentativesTotales, code);
+        scanf("%d", &code);
+
+        while (!(code == 123))
+        {
+        printf("code : ");
+        scanf("%d", &code);
+        }
+    }
+    else
+    {
+        niveau = 1;
+        printf("\n\n----Vous avez perdus !---\nNiveau maximum : %d\nNombre de tentatives totales : %d\n\n\n\n\n", niveau, tentativesTotales);
+        return 0;
+    }
+
+
+
+
+
+
+
+    // Génération du nombre aléatoire
+    srand(time(NULL));
+    nombreAleatoire = (rand() % (MAX - MIN + 1)) + MIN;
+
+    tentativesPC = 15;
+    printf("Votre nombre : ");
+    nombreOrdi = nombreAleatoireMax / 2;
+    printf("%d", nombreOrdi);
+
+
+
+
+    while (tentativesPC > 8)
+    {
+        tentativesPC--;
+
+        if (nombreOrdi > nombreAleatoire)
+        {
+            nombreOrdi2 = nombreOrdi2 / 2;
+            nombreOrdi = nombreOrdi - nombreOrdi2;
+            tentativesOrdi++;
+            printf("\nLe nombre aleatoire est plus PETIT !\nIl vous reste %d tentatives\n", tentativesPC);
+            printf("Nombre d'Adrien : ");
+            printf("%d", nombreOrdi);
+        }
+        else if (nombreOrdi < nombreAleatoire)
+        {
+            nombreOrdi2 = nombreOrdi2 / 2;
+            nombreOrdi = nombreOrdi + nombreOrdi2;
+            tentativesOrdi++;
+            printf("\nLe nombre aleatoire est plus GRAND !\nIl vous reste %d tentatives\n", tentativesPC);
+            printf("Nombre d'Adrien : ");
+            printf("%d", nombreOrdi);
+        }
+
+    }
+
+
+
+    while (tentativesPC > 1)
+    {
+        tentativesPC--;
+
+        if (nombreOrdi > nombreAleatoire)
+        {
+            nombreOrdi = nombreOrdi - 1;
+            tentativesOrdi++;
+            printf("\nLe nombre aleatoire est plus PETIT !\nIl vous reste %d tentatives\n", tentativesPC);
+            printf("Nombre d'Adrien : ");
+            printf("%d", nombreOrdi);
+        }
+        else if (nombreOrdi < nombreAleatoire)
+        {
+            nombreOrdi = nombreOrdi + 1;
+            tentativesOrdi++;
+            printf("\nLe nombre aleatoire est plus GRAND !\nIl vous reste %d tentatives\n", tentativesPC);
+            printf("Nombre d'Adrien : ");
+            printf("%d", nombreOrdi);
+        }
+
+    }
+
+
+
+
+
+
+    if (nombreOrdi == nombreAleatoire)
+    {
+        printf("\n\nADRIEN A TROUVE LE BON NOMBRE !");
+        niveau = 1;
+        printf("\n\n\nNiveau maximum de l'ordi: %d\nNombre de tentatives totales d'Adrien : %d\n\n\n\n---------------COMPARAISONS---------------", niveau, tentativesOrdi);
+    }
+    else
+    {
+        niveau = 1;
+        printf("\n\n----Vous avez perdus !---\nNiveau maximum : %d\nNombre de tentatives totales : %d\n\n\n\n\n", niveau, tentativesOrdi);
+        return 0;
+    }
+
+    if (tentativesTotales < tentativesOrdi)
+    {
+        printf("\n------> TU A GAGNER LA PARTIE !! <------\nVainqueur = Toi !!! avec seulement %d tentatives !\n", tentativesTotales);
+        printf("Perdant = Adrien avec %d tentatives.\n", tentativesOrdi);
+        diffTentatives = tentativesOrdi - tentativesTotales;
+        printf("Tu a gagne en faisant %d tentatives de moins qu'Adrien !\n\n\n\n\n\n\n\n\n\n\n", diffTentatives);
+    }
+
+    else if (tentativesTotales == tentativesOrdi)
+    {
+        printf("\n------> EGALITEE !! <------\n", tentativesTotales);
+        printf("Toi et Adrien ont tous les 2 fait %d tentatives.\n", tentativesOrdi);
+        diffTentatives = tentativesOrdi - tentativesTotales;
+    }
+
+    else
+    {
+        printf("\n------> ADRIEN A GAGNER LA PARTIE !! <------\nVainqueur = Adrien !!! avec seulement %d tentatives !\n", tentativesOrdi);
+        printf("Perdant = Toi avec %d tentatives.\n", tentativesTotales);
+        diffTentatives = tentativesTotales - tentativesOrdi ;
+        printf("Adrien a gagne en faisant %d tentatives de moins que toi !\n\n\n\n\n\n\n\n\n\n\n", diffTentatives);
+    }
+
+
+
+
+return 0;
+}
